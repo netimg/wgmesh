@@ -5,18 +5,19 @@ on:
   schedule:
     - cron: "5 * * * *"  # every hour
 
+
 jobs:
-  clean:
+  cleanup:
     runs-on: ubuntu-latest
-    name: Delete old untagged images
+
     steps:
-      - uses: snok/container-retention-policy@v3.0.1
+      - name: Delete old untagged versions
+        uses: Chizkiyahu/delete-untagged-ghcr-action@v6
         with:
-          account: netimg
-          image-names: wgmesh
-          #image-tags: "test* dev*"
-          cut-off: 1s
-          tag-selection: untagged
-          token: ${{ secrets.GHCR_PAT }}
-          #dry-run: true
-          
+          token: ${{ secrets.GHCR_PAT }}  # Your PAT with delete:packages
+          repository_owner: ${{ github.repository_owner }}
+          repository: ${{ github.repository }}
+          owner_type: org  # 'org' or 'user' if personal
+          untagged_only: true
+          except_untagged_multiplatform: true  # Crucial: skips parts needed by your tagged multi-arch image
+
