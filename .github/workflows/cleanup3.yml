@@ -11,4 +11,4 @@ jobs:
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GHCR_PAT }}  # Your PAT with delete:packages and read:packages
-          dry-run: true
+#          dry-run: true
