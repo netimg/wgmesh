@@ -4,10 +4,11 @@ on:
   workflow_dispatch:  # Manual run button
 
 jobs:
-  - name: ghcr.io cleanup action
+  cleanup:
     runs-on: ubuntu-latest
     steps:
-      - uses: dataaxiom/ghcr-cleanup-action@v1
+      - name: ghcr.io cleanup action
+        uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GHCR_PAT }}  # Your PAT with delete:packages and read:packages
           dry-run: true
