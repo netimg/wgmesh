@@ -13,7 +13,7 @@ jobs:
         with:
           token: ${{ secrets.GHCR_PAT }}
           owner-type: org  # <<< 'org' or 'user' if personal account
-          repository_owner: ${{ github.repository_owner }}
+          repository-owner: ${{ github.repository_owner }}
           package-name: ${{ github.repository }}
           delete-untagged: true
           dry-run: true
