@@ -16,4 +16,4 @@ jobs:
           repository-owner: ${{ github.repository_owner }}
           package-name: ${{ github.repository }}
           delete-untagged: true
-          dry-run: true
+          #dry-run: true
