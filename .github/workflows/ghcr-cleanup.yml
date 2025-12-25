@@ -1,0 +1,22 @@
+name: GHCR Cleanup
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "5 * * * *"  # every hour
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    name: Delete old untagged images
+    steps:
+      - uses: snok/container-retention-policy@v3.0.1
+        with:
+          account: netimg
+          image-names: wgmesh
+          #image-tags: "test* dev*"
+          cut-off: 1s
+          tag-selection: untagged
+          token: ${{ secrets.GHCR_PAT }}
+          #dry-run: true
+          
