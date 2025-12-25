@@ -19,5 +19,5 @@ jobs:
           repository: ${{ github.repository }}
           owner_type: org  # 'org' or 'user' if personal
           untagged_only: true
-          except_untagged_multiplatform: true  # Crucial: skips parts needed by your tagged multi-arch image
+          except_untagged_multiplatform: false  # Crucial: skips parts needed by your tagged multi-arch image
 
