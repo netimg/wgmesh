@@ -1,0 +1,19 @@
+name: GHCR Cleanup 4 (Manual - Truly Untagged Orphans)
+
+on:
+  workflow_dispatch:  # Manual run button
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete truly untagged old versions (safe for multi-arch)
+        uses: quartx-analytics/ghcr-cleaner@v1
+        with:
+          token: ${{ secrets.GHCR_PAT }}
+          owner-type: org  # <<< 'org' or 'user' if personal account
+          repository_owner: ${{ github.repository_owner }}
+          package-name: ${{ github.repository }}
+          delete-untagged: true
+          dry-run: true
