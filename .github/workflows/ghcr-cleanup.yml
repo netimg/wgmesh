@@ -2,8 +2,8 @@ name: GHCR Cleanup
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "5 * * * *"  # every hour
+#  schedule:
+#    - cron: "5 * * * *"  # every hour
 
 
 jobs:
