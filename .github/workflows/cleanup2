@@ -1,0 +1,48 @@
+name: GHCR Cleanup 2 (keep tagged versions)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"
+
+permissions:
+  packages: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete untagged GHCR versions
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const packageName = "myrepo";
+
+            const versions = await github.paginate(
+              github.rest.packages.getAllPackageVersionsForPackageOwnedByOrg,
+              {
+                package_type: "container",
+                package_name: packageName,
+                org: owner,
+                per_page: 100,
+              }
+            );
+
+            for (const v of versions) {
+              const tags = v.metadata?.container?.tags ?? [];
+
+              if (tags.length === 0) {
+                console.log(`Deleting untagged version ${v.id}`);
+                await github.rest.packages.deletePackageVersionForOrg({
+                  package_type: "container",
+                  package_name: packageName,
+                  org: owner,
+                  package_version_id: v.id,
+                });
+              } else {
+                console.log(
+                  `Keeping version ${v.id} (tags: ${tags.join(", ")})`
+                );
+              }
+            }
