@@ -4,16 +4,10 @@ on:
   workflow_dispatch:  # Manual run button
 
 jobs:
-  cleanup:
+  - name: ghcr.io cleanup action
     runs-on: ubuntu-latest
-    permissions:
-      packages: delete  # For deletion
-      contents: read    # Often needed
-
     steps:
-      - name: Cleanup old untagged versions (safe for multi-platform)
-        uses: dataaxiom/ghcr-cleanup-action@v1
+      - uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           token: ${{ secrets.GHCR_PAT }}  # Your PAT with delete:packages and read:packages
-          # No other options needed – default deletes safe untagged images
-          dry-run: true  # Uncomment first to test (it logs what it'd delete, no action)
+          dry-run: true
